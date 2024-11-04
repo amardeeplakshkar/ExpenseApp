@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { DockComponent } from "@/components/app-with-dock";
-import { Toaster } from "sonner";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from '@/components/theme-provider';
 
@@ -45,7 +44,6 @@ export default function RootLayout({
           </div>
           <DockComponent />
         </div>
-        <Toaster ExplorePage={undefined} />
             </ThemeProvider>
       </body>
     </html>

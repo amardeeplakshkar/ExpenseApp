@@ -3,7 +3,6 @@
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { dockItems } from "@/constants/index"; 
-import { toast } from "sonner";
 
 export function DockComponent() {
   const router = useRouter();
@@ -11,7 +10,6 @@ export function DockComponent() {
 
   const handleNavigation = (route: string) => {
     router.push(route);
-    toast("Event has been created.")
   };
 
   return (
