@@ -13,7 +13,7 @@ export function DockComponent() {
   };
 
   return (
-    <nav className="flex items-center justify-around mt-auto bg-background p-2">
+    <nav className="flex items-center justify-between mt-auto bg-background px-4 py-2">
       {dockItems.map((item) => (
         <Button
           key={item.route}
@@ -23,7 +23,6 @@ export function DockComponent() {
           onClick={() => handleNavigation(item.route)}
         >
           <item.icon/>
-          <span className="text-[.7rem]">{item.label}</span>
         </Button>
       ))}
     </nav>
