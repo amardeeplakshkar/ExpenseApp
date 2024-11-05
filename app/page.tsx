@@ -1,5 +1,6 @@
 "use client"
 
+import Loader from '@/components/Loader';
 import { Button } from '@/components/ui/button'
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
@@ -10,7 +11,9 @@ const page = () => {
   const { isLoaded, isSignedIn, user } = useUser();
 
   if (!isLoaded || !isSignedIn) {
-    return <p>Loading...</p>; // You could also redirect to sign-in if not signed in
+    return (
+      <Loader />
+    )
   }
 
   const fullName = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim();
@@ -21,8 +24,8 @@ const page = () => {
         Dashboard
       </Button>
       <div>
-      <h1>Welcome, {fullName || user.username || "User"}!</h1>
-    </div>
+        <h1>Welcome, {fullName || user.username || "User"}!</h1>
+      </div>
     </>
   )
 }
