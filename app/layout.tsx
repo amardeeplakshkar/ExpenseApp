@@ -3,7 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { DockComponent } from "@/components/app-with-dock";
 import Navbar from "@/components/Navbar";
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from "@/components/theme-provider";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,25 +28,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable}  `}
-      >
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-        <div className="flex flex-col max-h-dvh min-h-dvh">
-          <Navbar/>
-          <div className="flex-grow p-2">
-            {children}
-          </div>
-          <DockComponent />
-        </div>
-            </ThemeProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+           {
+            children
+           }
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

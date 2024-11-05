@@ -1,9 +1,11 @@
 'use client'
 
 import { LogOut, MoonIcon, SunIcon } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { useTheme } from 'next-themes'
+import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
+import { Skeleton } from './ui/skeleton'
 
 const Navbar = () => {
     const { theme, setTheme, systemTheme } = useTheme()
@@ -13,7 +15,18 @@ const Navbar = () => {
     const toggleTheme = () => {
         setTheme(currentTheme === 'light' ? 'dark' : 'light')
     }
+    const [loading, setLoading] = useState(true); // Add a loading state
 
+    useEffect(() => {
+        // Simulate a data fetch
+        const fetchData = async () => {
+            // Simulate a delay (for demonstration)
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            setLoading(false); // Set loading to false after fetching data
+        };
+
+        fetchData();
+    }, []);
     return (
         <nav className="flex items-center justify-between p-4 transition-colors duration-300">
             <Button variant="ghost" onClick={toggleTheme}>
@@ -21,7 +34,12 @@ const Navbar = () => {
             </Button>
             <h2 className="font-bold">Expenses</h2>
             <Button variant="ghost">
-                <LogOut />
+                {
+                    loading ? (
+                        <Skeleton className='h-[2rem] aspect-square rounded-full' />
+                    ) :
+                        <UserButton />
+                }
             </Button>
         </nav>
     )
