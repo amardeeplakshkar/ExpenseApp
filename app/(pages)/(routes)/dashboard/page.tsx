@@ -62,6 +62,7 @@ const spendDataInitial: SpendItem[] = [
   { name: "Education", icon: BookOpen, time: "10:30", amount: 75.0 },
   { name: "Internet", icon: Wifi, time: "11:00", amount: 60.0 },
   { name: "Phone Bill", icon: Smartphone, time: "13:30", amount: 90.0 },
+
 ];
 
 const Page = () => {
@@ -155,7 +156,7 @@ const Page = () => {
 
         <Dialog>
           <DialogTrigger>
-            <div className="absolute translate-x-[-3.1rem] bg-background w-dvh translate-y-[3.3rem] scale-125 p-4 bottom-0">
+            <div className="absolute right-0 bottom-[5dvh]  scale-125 p-4 ">
               <PlusCircleIcon className="text-green-500 hover:scale-110" />
             </div>
           </DialogTrigger>
@@ -169,7 +170,7 @@ const Page = () => {
                   placeholder="Spend Name"
                   value={newSpend.name}
                   onChange={handleChange}
-                  className="p-2 m-1 border rounded-xl"
+                  className="p-2 m-1 border rounded-xl w-[70%]"
                 />
                 <input
                   type="time"
@@ -184,7 +185,7 @@ const Page = () => {
                   placeholder="Amount"
                   value={newSpend.amount}
                   onChange={handleChange}
-                  className="p-2 border  rounded-xl"
+                  className="p-2 border  rounded-xl w-[70%]"
                 />
 
                 {/* Icon Selection */}

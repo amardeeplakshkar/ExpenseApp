@@ -13,12 +13,12 @@ export function DockComponent() {
   };
 
   return (
-    <nav className="flex items-center justify-around h-16 mt-auto bg-background">
+    <nav className="flex items-center justify-around mt-auto bg-background p-2">
       {dockItems.map((item) => (
         <Button
           key={item.route}
           variant="ghost"
-          className={`flex flex-col items-center p-2 mb-[-.5rem] hover:scale-110 ${pathname === item.route ? "text-primary" : "text-muted-foreground"
+          className={`flex flex-col items-center p-2  hover:scale-110 ${pathname === item.route ? "text-primary" : "text-muted-foreground"
             }`}
           onClick={() => handleNavigation(item.route)}
         >

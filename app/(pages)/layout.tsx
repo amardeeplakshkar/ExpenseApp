@@ -14,7 +14,7 @@ export default function RootLayout({
     return (
         <div className="flex flex-col max-h-dvh min-h-dvh">
             <Navbar />
-            <div className="flex-grow p-2">{children}</div>
+            <div className="flex-grow p-2 max-h-[65dvh]">{children}</div>
             <DockComponent />
         </div>
     );
