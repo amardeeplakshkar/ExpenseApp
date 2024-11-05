@@ -12,9 +12,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="flex flex-col max-h-dvh min-h-dvh">
+        <div className="flex flex-col max-h-dvh min-h-dvh overflow-hidden">
             <Navbar />
-            <div className="flex-grow p-2 max-h-[65dvh]">{children}</div>
+            <div className="max-h-[-20dvh]">{children}</div>
             <DockComponent />
         </div>
     );

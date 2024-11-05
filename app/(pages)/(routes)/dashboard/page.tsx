@@ -52,17 +52,6 @@ const availableIcons = [
 ];
 
 const spendDataInitial: SpendItem[] = [
-  { name: "Groceries", icon: ShoppingCart, time: "08:30", amount: 250.75 },
-  { name: "Transport", icon: Bus, time: "09:15", amount: 50.0 },
-  { name: "Dining", icon: Utensils, time: "12:45", amount: 120.5 },
-  { name: "Entertainment", icon: Film, time: "15:00", amount: 300.0 },
-  { name: "Utilities", icon: Lightbulb, time: "17:30", amount: 200.0 },
-  { name: "Shopping", icon: BaggageClaim, time: "19:00", amount: 450.0 },
-  { name: "Healthcare", icon: HeartPulse, time: "21:15", amount: 100.25 },
-  { name: "Education", icon: BookOpen, time: "10:30", amount: 75.0 },
-  { name: "Internet", icon: Wifi, time: "11:00", amount: 60.0 },
-  { name: "Phone Bill", icon: Smartphone, time: "13:30", amount: 90.0 },
-
 ];
 
 const Page = () => {
