@@ -79,20 +79,20 @@ const Page = () => {
     if (newSpend.name && newSpend.time && newSpend.amount) {
       setSpendData((prev) => [
         ...prev,
-        { ...newSpend, amount: parseFloat(newSpend.amount), icon: selectedIcon } // Use selected icon
+        { ...newSpend, amount: parseFloat(newSpend.amount), icon: selectedIcon }
       ]);
-      setNewSpend({ name: "", time: "", amount: "", icon: ShoppingCart }); // Reset input fields
-      setSelectedIcon(ShoppingCart); // Reset selected icon
+      setNewSpend({ name: "", time: "", amount: "", icon: ShoppingCart });
+      setSelectedIcon(ShoppingCart);
     }
   };
 
-  const toPascalCase = (str:string) => {
+  const toPascalCase = (str: string) => {
     return str
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' '); 
+      .join(' ');
   };
-  
+
   return (
     <>
       <main className="relative flex flex-col items-center gap-2 h-[82dvh]">
@@ -106,7 +106,9 @@ const Page = () => {
         <div className="w-full overflow-y-auto card-container max-h-[64dvh]">
           <div className="sticky top-0 flex justify-between p-2 font-semibold bg-background">
             <p>Today</p>
-            <p>{totalAmount}</p>
+            <p className="flex justify-center items-center">
+              <IndianRupee size={15}/>
+              {totalAmount} </p>
           </div>
           {spendData.map((data, index) => (
             <SpendCard key={index} Icon={data.icon} name={toPascalCase(data.name)} time={data.time} amount={data.amount.toFixed(2)} />
@@ -144,13 +146,13 @@ const Page = () => {
                   placeholder="Amount"
                   value={newSpend.amount}
                   onChange={handleChange}
-                  className="p-2 m-1 border rounded-xl"
+                  className="p-2 border  rounded-xl"
                 />
 
                 {/* Icon Selection */}
                 <div className="flex flex-wrap justify-center m-2">
                   {availableIcons.map(({ name, icon: Icon }, index) => (
-                    <div key={index} className="p-2 m-1 rounded cursor-pointer hover:bg-slate-500/10" onClick={() => setSelectedIcon(Icon)}>
+                    <div key={index} className="p-4  rounded cursor-pointer hover:bg-slate-500/10 " onClick={() => setSelectedIcon(Icon)}>
                       <Icon className={`h-8 w-8 ${selectedIcon === Icon ? 'text-blue-500' : 'text-gray-600'}`} />
                     </div>
                   ))}

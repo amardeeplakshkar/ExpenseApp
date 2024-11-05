@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable}  `}
       >
             <ThemeProvider
               attribute="class"
@@ -37,9 +37,9 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-        <div className="flex flex-col h-dvh">
+        <div className="flex flex-col max-h-dvh min-h-dvh">
           <Navbar/>
-          <div className="p-2">
+          <div className="flex-grow p-2">
             {children}
           </div>
           <DockComponent />
