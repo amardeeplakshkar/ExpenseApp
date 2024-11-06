@@ -2,7 +2,7 @@
 import SpendCard from "@/components/SpendCard";
 import { IndianRupee, PlusCircleIcon } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import Loader from "@/components/Loader"; // Import the Loader component
+import Loader from "@/components/Loader";
 import {
   Dialog,
   DialogContent,
@@ -32,6 +32,7 @@ import NumberTicker from "@/components/ui/number-ticker";
 type SpendItem = {
   name: string;
   icon: React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>>;
+  date: string;
   time: string;
   amount: number;
 };
@@ -55,25 +56,21 @@ const availableIcons = [
 const spendDataInitial: SpendItem[] = [
 ];
 
+
 const Page = () => {
   const [spendData, setSpendData] = useState<SpendItem[]>(spendDataInitial);
-  const [newSpend, setNewSpend] = useState<{ name: string; time: string; amount: string; icon: React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>> }>({ name: "", time: "", amount: "", icon: ShoppingCart });
+  const [newSpend, setNewSpend] = useState<{ name: string; date: string; time: string; amount: string; icon: React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>> }>({ name: "", date: "", time: "", amount: "", icon: ShoppingCart });
   const [selectedIcon, setSelectedIcon] = useState<React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>>>(ShoppingCart);
-  const [loading, setLoading] = useState(true); // Add a loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate a data fetch
     const fetchData = async () => {
-      // Simulate a delay (for demonstration)
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      setLoading(false); // Set loading to false after fetching data
+      setLoading(false);
     };
 
     fetchData();
   }, []);
-
-  const totalAmount = spendData.reduce((acc, item) => acc + item.amount, 0).toFixed(2);
-  const Amount = totalAmount;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -81,12 +78,12 @@ const Page = () => {
   };
 
   const handleAddSpend = () => {
-    if (newSpend.name && newSpend.time && newSpend.amount) {
+    if (newSpend.name && newSpend.date && newSpend.time && newSpend.amount) {
       setSpendData((prev) => [
         ...prev,
         { ...newSpend, amount: parseFloat(newSpend.amount), icon: selectedIcon }
       ]);
-      setNewSpend({ name: "", time: "", amount: "", icon: ShoppingCart });
+      setNewSpend({ name: "", date: "", time: "", amount: "", icon: ShoppingCart });
       setSelectedIcon(ShoppingCart);
     }
   };
@@ -96,6 +93,27 @@ const Page = () => {
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
+  };
+
+  const groupedByDate = spendData.reduce((acc, item) => {
+    if (!acc[item.date]) {
+      acc[item.date] = { total: 0, items: [] };
+    }
+    acc[item.date].total += item.amount;
+    acc[item.date].items.push(item);
+    return acc;
+  }, {} as Record<string, { total: number; items: SpendItem[] }>);
+
+  // Sort the dates in ascending order
+  const sortedDates = Object.keys(groupedByDate).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+
+  // Helper function to format the date as "DD/MM/YYYY"
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // getMonth() returns 0-based month
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
   };
 
   return (
@@ -113,42 +131,32 @@ const Page = () => {
               <h2 className="flex items-center justify-center text-xl text-red-500 font-[500]">
                 <IndianRupee />-
                 <span className="text-5xl">
-                <NumberTicker className="text-red-500" value={parseInt(Amount.split(".")[0], 10)} />
-                  </span>.
-                {Amount.split(".")[1]}
+                  <NumberTicker className="text-red-500" value={parseInt((Object.values(groupedByDate).reduce((acc, { total }) => acc + total, 0)).toFixed(0), 10)} />
+                </span>.{(Object.values(groupedByDate).reduce((acc, { total }) => acc + total, 0)).toFixed(2).split(".")[1]}
               </h2>
             </>
           )
         }
 
         <div className="w-full overflow-y-auto card-container max-h-[64dvh]">
-          <div className="sticky top-0 flex justify-between p-2 font-semibold bg-background">
-            {
-              loading ? (
-                <>
-                  <Skeleton className="h-[1rem] w-[5rem]" />
-                  <Skeleton className="h-[1rem] w-[5rem] " />
-                </>
-              ) : (
-                <>
-                  <p>Today</p>
-                  <p className="flex justify-center items-center">
-                    <IndianRupee size={15} />
-                    {totalAmount}
-                  </p>
-                </>
-              )
-            }
-
-          </div>
-          {spendData.map((data, index) => (
-            <SpendCard key={index} Icon={data.icon} name={toPascalCase(data.name)} time={data.time} amount={data.amount.toFixed(2)} />
+          {sortedDates.map((date) => (
+            <div key={date}>
+              <div className="sticky top-0 flex justify-between p-2 font-semibold bg-background">
+                <p>{formatDate(date)}</p> {/* Changed to use the formatDate function */}
+                <p className="flex items-center">
+                  <IndianRupee size={15} /> {groupedByDate[date].total.toFixed(2)}
+                </p>
+              </div>
+              {groupedByDate[date].items.map((data, index) => (
+                <SpendCard key={index} Icon={data.icon} name={toPascalCase(data.name)} time={data.time} amount={data.amount.toFixed(2)} />
+              ))}
+            </div>
           ))}
         </div>
 
         <Dialog>
           <DialogTrigger>
-            <div className="absolute right-0 bottom-[5dvh]  scale-125 p-4 ">
+            <div className="absolute right-0 bottom-[5dvh] scale-125 p-4 ">
               <PlusCircleIcon className="text-green-500 hover:scale-110" />
             </div>
           </DialogTrigger>
@@ -163,6 +171,14 @@ const Page = () => {
                   value={newSpend.name}
                   onChange={handleChange}
                   className="p-2 m-1 border rounded-xl w-[70%]"
+                />
+                <input
+                  type="date"
+                  name="date"
+                  value={newSpend.date}
+                  onChange={handleChange}
+                  className="p-2 m-1 border rounded-xl"
+                  max={new Date().toISOString().split("T")[0]}
                 />
                 <input
                   type="time"
@@ -180,7 +196,6 @@ const Page = () => {
                   className="p-2 border  rounded-xl w-[70%]"
                 />
 
-                {/* Icon Selection */}
                 <div className="flex flex-wrap justify-center m-2">
                   {availableIcons.map(({ name, icon: Icon }, index) => (
                     <div key={index} className="p-4  rounded cursor-pointer hover:bg-slate-500/10 " onClick={() => setSelectedIcon(Icon)}>
