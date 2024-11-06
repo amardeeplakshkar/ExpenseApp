@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import NumberTicker from "@/components/ui/number-ticker";
 
 // Define the type for a spend item
 type SpendItem = {
@@ -111,7 +112,9 @@ const Page = () => {
               <p className="pt-5 text-muted-foreground">Spends This Month</p>
               <h2 className="flex items-center justify-center text-xl text-red-500 font-[500]">
                 <IndianRupee />-
-                <span className="text-6xl">{Amount.split(".")[0]}</span>.
+                <span className="text-5xl">
+                <NumberTicker className="text-red-500" value={parseInt(Amount.split(".")[0], 10)} />
+                  </span>.
                 {Amount.split(".")[1]}
               </h2>
             </>
