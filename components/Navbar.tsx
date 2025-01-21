@@ -4,8 +4,10 @@ import { LogOut, MoonIcon, SunIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { useTheme } from 'next-themes'
-import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
+import { ClerkProvider, SignedIn, SignedOut, SignInButton, SignOutButton, UserButton } from '@clerk/nextjs'
 import { Skeleton } from './ui/skeleton'
+import UserAvatar from './Avatar'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
 
 const Navbar = () => {
     const { theme, setTheme, systemTheme } = useTheme()
@@ -33,14 +35,21 @@ const Navbar = () => {
                 {currentTheme === 'light' ? <MoonIcon /> : <SunIcon />}
             </Button>
             <h2 className="font-bold">Expenses</h2>
-            <Button variant="ghost">
+            <DropdownMenu>
+                <DropdownMenuTrigger className='outline-none '>
                 {
                     loading ? (
                         <Skeleton className='h-[2rem] aspect-square rounded-full' />
                     ) :
-                        <UserButton />
+                       <UserAvatar/>
                 }
-            </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className='p-2'>
+                    <span className='cursor-pointer'>Account Details</span>
+                    <DropdownMenuSeparator/>
+                    <SignOutButton/>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </nav>
     )
 }

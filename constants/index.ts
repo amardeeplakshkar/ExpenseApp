@@ -7,9 +7,7 @@ type DockItem = {
 };
 
 export const dockItems: DockItem[] = [
-    { icon: ChartPie, label: "Stats", route: "/stats" },
-    { icon: Compass, label: "Explore", route: "/explore" },
+    { icon: ChartPie, label: "Analytics", route: "/analytics" },
     { icon: Home, label: "Home", route: "/dashboard" },
-    { icon: Bell, label: "Notifications", route: "/notifications" },
-    { icon: History, label: "Activity", route: "/activity" },
+    { icon: History, label: "Changelogs", route: "/changes" },
 ] as const;

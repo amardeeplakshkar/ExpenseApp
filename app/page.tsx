@@ -1,33 +1,15 @@
 "use client"
 
-import Loader from '@/components/Loader';
-import { Button } from '@/components/ui/button'
-import { useUser } from '@clerk/nextjs';
-import { useRouter } from 'next/navigation';
-import React from 'react'
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
-const page = () => {
-  const router = useRouter();
-  const { isLoaded, isSignedIn, user } = useUser();
+const Page = () => {
+  const router = useRouter()
 
-  if (!isLoaded || !isSignedIn) {
-    return (
-      <Loader />
-    )
-  }
-
-  const fullName = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim();
-
-  return (
-    <>
-      <Button variant={'outline'} onClick={() => { router.push('/dashboard') }}>
-        Dashboard
-      </Button>
-      <div>
-        <h1>Welcome, {fullName || user.username || "User"}!</h1>
-      </div>
-    </>
-  )
+  useEffect(() => {
+    router.push('/dashboard')
+  }, [router])
+  return null
 }
 
-export default page
+export default Page
