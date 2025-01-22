@@ -95,18 +95,18 @@ const Page = () => {
   useEffect(() => {
     const fetchSpends = async () => {
       if (!user?.id) return;
-      
+
       try {
         const response = await fetch(`/api/spends?userId=${user.id}`);
         if (!response.ok) throw new Error("Failed to fetch spends");
         const data = await response.json();
-        
+
         // Transform the data to include the actual icon component
         const transformedData = data.map((spend: any) => ({
           ...spend,
           icon: iconMap[spend.icon] || ShoppingCart,
         }));
-        
+
         setSpendData(transformedData);
       } catch (error) {
         console.error("Error fetching spends:", error);
@@ -127,7 +127,7 @@ const Page = () => {
 
   const handleAddSpend = async () => {
     if (!user?.id) return;
-    
+
     if (newSpend.name && newSpend.date && newSpend.time && newSpend.amount) {
       try {
         // Get the icon name from the selected icon component
@@ -153,7 +153,7 @@ const Page = () => {
         if (!response.ok) throw new Error("Failed to add spend");
 
         const newSpendData = await response.json();
-        
+
         // Transform the response to include the actual icon component
         const transformedSpend = {
           ...newSpendData,
@@ -220,11 +220,9 @@ const Page = () => {
               <span className="text-5xl">
                 <NumberTicker
                   className="text-red-500"
-                  value={parseInt(
+                  value={Math.floor(
                     Object.values(groupedByDate)
                       .reduce((acc, { total }) => acc + total, 0)
-                      .toFixed(0),
-                    10
                   ) || 0.01}
                 />
               </span>
@@ -313,9 +311,8 @@ const Page = () => {
                     onClick={() => setSelectedIcon(Icon)}
                   >
                     <Icon
-                      className={`h-8 w-8 ${
-                        selectedIcon === Icon ? "text-blue-500" : "text-gray-600"
-                      }`}
+                      className={`h-8 w-8 ${selectedIcon === Icon ? "text-blue-500" : "text-gray-600"
+                        }`}
                     />
                   </div>
                 ))}

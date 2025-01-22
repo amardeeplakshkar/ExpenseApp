@@ -46,7 +46,7 @@ const Navbar = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='p-2'>
                     {/* <span className='cursor-pointer'>Account Details</span>
-                    <DropdownMenuSeparator/> */}
+                    <DropdownMenuSeparator/> */}    
                     <SignOutButton/>
                 </DropdownMenuContent>
             </DropdownMenu>
