@@ -1,11 +1,9 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
+import { useSpendContext } from "@/components/contexts/useSpendContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/utils";
@@ -26,44 +24,15 @@ import {
 } from "recharts";
 import { useState, useEffect } from "react";
 import CurrencyIcon from "@/components/CurrencyIcon";
-import { ShoppingCart } from "lucide-react";
-
-const iconMap: { [key: string]: React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>> } = {
-  ShoppingCart,
-};
 
 const AnalyticsPage = () => {
-  const { user } = useUser();
-  const [spendData, setSpendData] = useState<any[]>([]);
+  const { spendData } = useSpendContext();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSpendData = async () => {
-      if (!user?.id) return;
-
-      try {
-        const response = await fetch(`/api/spends?userId=${user.id}`);
-        if (!response.ok) throw new Error("Failed to fetch spends");
-        const data = await response.json();
-
-        // Transform the data to include the actual icon component
-        const transformedData = data.map((spend: any) => ({
-          ...spend,
-          icon: iconMap[spend.icon] || ShoppingCart,
-        }));
-
-        setSpendData(transformedData);
-      } catch (error) {
-        console.error("Error fetching spends:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (user) {
-      fetchSpendData();
-    }
-  }, [user]);
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Group data by date and calculate totals
   const dailySpending = Object.entries(
